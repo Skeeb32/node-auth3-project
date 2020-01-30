@@ -1,21 +1,23 @@
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { jwtSecret } = require('../config/secrets.js')
+const { jwtSecret } = require('../config/secrets');
+
+const Users = require('../users/users-model');
 
 module.exports = (req, res, next) => {
-  const token = req.headers.authorization;
+   const token = req.headers.authorization;
 
-  if(token) {
+   if(token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      if(err) {
-        // the token is not valid
-        res.status(401).json({ you: "can't touch this!"})
-      } else {
-
-        next();
-      }
-    })
+  if (err) {
+    // the token is not valid
+    res.status(401).json({ message: "cant touch this!" });
   } else {
-    res.status(401).json({ you: 'shall not pass!'})
+    next();
   }
+    });
+   } else {
+       res.status(401).json({message: 'shall not pass'})
+   }
 };
