@@ -43,9 +43,10 @@ router.post('/login', (req, res) => {
 
 
 function signToken(user) {
-  const payload = {
-    house: user.house
-  };
+    const payload = {
+      username: user.username,
+      departments: user.departments
+    };
 
   const options = {
     expiresIn: '1d'
